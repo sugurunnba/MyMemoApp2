@@ -8,19 +8,50 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--MyMemos-->
+        <!--New Memo-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController storyboardIdentifier="addMemo" modalPresentationStyle="fullScreen" id="BYZ-38-t0r" customClass="MemoViewController" customModule="MyMemoApp2" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YpP-93-oRA">
+                                <rect key="frame" x="30" y="118" width="354" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="memoTextFieldChanged:" destination="BYZ-38-t0r" eventType="editingChanged" id="btx-Mt-I6I"/>
+                                </connections>
+                            </textField>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="YpP-93-oRA" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="ZuE-h2-Hih"/>
+                            <constraint firstItem="YpP-93-oRA" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="dCp-Py-WkU"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="YpP-93-oRA" secondAttribute="trailing" constant="30" id="kCq-CK-m7n"/>
+                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="MyMemos" id="kcv-Xm-put"/>
+                    <navigationItem key="navigationItem" title="New Memo" id="kcv-Xm-put">
+                        <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="HuO-SP-SIn">
+                            <connections>
+                                <action selector="cancelMethod:" destination="BYZ-38-t0r" id="MyP-Mf-bZB"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Item" systemItem="save" id="PaC-Tl-oNe">
+                            <connections>
+                                <segue destination="j16-6C-P1V" kind="unwind" unwindAction="unwindToMemoListWithSender:" id="HaL-80-3MM"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="memoTextField" destination="YpP-93-oRA" id="boq-1y-gf1"/>
+                        <outlet property="saveButton" destination="PaC-Tl-oNe" id="wKO-DI-zui"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <exit id="j16-6C-P1V" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1857" y="98"/>
         </scene>
@@ -49,6 +80,9 @@
                                         </label>
                                     </subviews>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" identifier="editMemo" id="vjK-GZ-V8P"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -104,9 +138,12 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="JmO-CY-VRZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1005.7971014492755" y="97.767857142857139"/>
+            <point key="canvasLocation" x="1014" y="452"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="vjK-GZ-V8P"/>
+    </inferredMetricsTieBreakers>
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

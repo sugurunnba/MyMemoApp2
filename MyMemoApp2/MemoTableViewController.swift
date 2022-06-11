@@ -9,10 +9,35 @@ import UIKit
 
 class MemoTableViewController: UITableViewController {
     
-    var memos = ["blue", "yellow", "red"]
+//    var memos = ["blue", "yellow", "red"]
+    
+    let userDefaules = UserDefaults.standard
+    var memos = [String]()
+    
+//    saveボタン押下後に入力されたmemoをListに追加する
+    @IBAction func unwindToMemoList(sender: UIStoryboardSegue){
+        guard let sourceVC = sender.source as? MemoViewController, let memo = sourceVC.memo else {
+            return
+        }
+        if let selectedIndexPath = self.tableView.indexPathForSelectedRow {
+            self.memos[selectedIndexPath.row] = memo
+        } else {
+            self.memos.append(memo)
+        }
+        self.userDefaules.set(self.memos, forKey: "memos")
+        self.tableView.reloadData()
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+//        userDefaulesはキーと値でデータを保持する
+        if self.userDefaules.object(forKey: "memos") != nil {
+//            文字列の配列をキーをmemosで呼び出す
+            self.memos = self.userDefaules.stringArray(forKey: "memos")!
+        } else {
+            self.memos = ["memo1", "memo2", "memo3"]
+        }
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -50,17 +75,14 @@ class MemoTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // Override to support editing the table view.
+//    スワイプでメモの削除
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
-            // Delete the row from the data source
+            self.memos.remove(at: indexPath.row)
+            self.userDefaules.set(self.memos, forKey: "memos")
             tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        }
     }
-    */
 
     /*
     // Override to support rearranging the table view.
@@ -77,14 +99,15 @@ class MemoTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        guard let identifier = segue.identifier else {
+            return
+        }
+        if identifier == "editMemo" {
+            let memoVC = segue.destination as! MemoViewController
+//            タップされている行が何行目か -> self.tableView.indexPathForSelectedRow?
+            memoVC.memo = self.memos[(self.tableView.indexPathForSelectedRow?.row)!]
+        }
     }
-    */
 
 }
